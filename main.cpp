@@ -59,7 +59,7 @@ void instDecExec(unsigned int instWord)
                 //regs[rd] = regs[rs1] + regs[rs2];
             }
                 break;
-            case 1: cout << "\tSLL\tx" << rd << ", x" << rs1 << ", x" << rs2 << "\n";        //SHOULD CASES BE IN HEXA????!!!!!!!!!!!
+            case 1: cout << "\tSLL\tx" << rd << ", x" << rs1 << ", x" << rs2 << "\n";
                 //regs[rd] = regs[rs1] << regs[rs2];
                 break;
             case 2: cout << "\tSLT\tx" << rd << ", x" << rs1 << ", x" << rs2 << "\n";
@@ -102,39 +102,40 @@ void instDecExec(unsigned int instWord)
         I_imm1 = (I_imm >> 5) & 0x0000007F;
         I_imm2 = I_imm & 0x0000001F;
         if(posNegBit_I == 0){
-                switch (funct3) {
-                    case 0: cout << "\tANDI\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
-                        //regs[rd] = regs[rs1] - imm;
-                        break;
-                
-                    case 1: cout << "\tSLLI\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
-                        //regs[rd] = regs[rs1] << imm[0:4];
-                        break;
-                
-                    case 2: cout << "\tSLTI\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
-                        //regs[rd] = (regs[rs1] < imm)?1:0
-                        break;
-                
-                    case 3: cout << "\tSLTIU\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
-                        //regs[rd] = (regs[rs1] < imm)?1:0
-                        break;
-                
-                    case 4: cout << "\tXORI\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
-                        //regs[rd] = regs[rs1] ^ imm;
-                        break;
-                
-                    case 6: cout << "\tORI\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
-                        //regs[rd] = regs[rs1] | imm;
-                        break;
-                
-                    case 7: cout << "\tANDI\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
-                        //regs[rd] = regs[rs1] & imm;
-                        break;
-                
-                    default: cout << "\tUnkown I Instruction \n";
-                }
+            switch (funct3) {
+                case 0: cout << "\tANDI\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
+                    //regs[rd] = regs[rs1] - imm;
+                    break;
+                    
+                case 1: cout << "\tSLLI\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
+                    //regs[rd] = regs[rs1] << imm[0:4];
+                    break;
+                    
+                case 2: cout << "\tSLTI\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
+                    //regs[rd] = (regs[rs1] < imm)?1:0
+                    break;
+                    
+                case 3: cout << "\tSLTIU\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
+                    //regs[rd] = (regs[rs1] < imm)?1:0
+                    break;
+                    
+                case 4: cout << "\tXORI\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
+                    //regs[rd] = regs[rs1] ^ imm;
+                    break;
+                    
+                case 6: cout << "\tORI\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
+                    //regs[rd] = regs[rs1] | imm;
+                    break;
+                    
+                case 7: cout << "\tANDI\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
+                    //regs[rd] = regs[rs1] & imm;
+                    break;
+                    
+                default: cout << "\tUnkown I Instruction \n";
             }
+        }
         else{
+            I_imm = (I_imm xor 0xFFFFFFFF) + 1;
             switch (funct3) {
                 case 0: cout << "\tANDI\tx" << rd << ", x" << rs1 << ", -" << I_imm << "\n";
                     //regs[rd] = regs[rs1] - imm;
@@ -168,7 +169,7 @@ void instDecExec(unsigned int instWord)
             }
         }
         if(funct3 = 5){
-            if (I_imm1 == 32) {                                            //or  if(imm[5:11] == 23) ?????????????????????????
+            if (I_imm1 == 32) {                                            //or  if(imm[5:11] == 23) ??????
                 cout << "\tSRAI\tx" << rd << ", x" << rs1 << ", " << I_imm2 << "\n";
                 //regs[rd] = regs[rs1] >> imm[0:4];
             }
@@ -182,32 +183,32 @@ void instDecExec(unsigned int instWord)
     
     else if (opcode == 0x03) {        // I-Instructions (0000011) 3  (lb, lh, lw...)
         if(posNegBit_I == 0){
-        switch (funct3) {
+            switch (funct3) {
                 case 0: cout << "\tLB\tx" << rd << ", " << I_imm << "(" << rs1 << ")\n";    //ex: lb 0x3, 5(0x6)
                     //regs[rd] = M[rs1 + imm][0:7]
                     break;
-                
+                    
                 case 1: cout << "\tLH\tx" << rd << ", " << I_imm << "(" << rs1 << ")\n";
                     //regs[rd] = M[rs1 + imm][0:15]
                     break;
-                
+                    
                 case 2: cout << "\tLW\tx" << rd << ", " << I_imm << "(" << rs1 << ")\n";
                     //regs[rd] = M[rs1 + imm][0:31]
                     break;
-                
+                    
                 case 4:  cout << "\tLBU\tx" << rd << ", " << I_imm << "(" << rs1 << ")\n";
                     //regs[rd] = M[rs1 + imm][0:7]
                     break;
-                
+                    
                 case 5: cout << "\tLHU\tx" << rd << ", " << I_imm << "(" << rs1 << ")\n";
                     //regs[rd] = M[rs1 + imm][0:15]
                     break;
-                
+                    
                 default: cout << "\tUnkown I Instruction \n";
             }
         }
-        if(posNegBit_I == 1){
-            I_imm = (I_imm & 0) + 1;
+        else {
+            I_imm = (I_imm xor 0xFFFFFFFF) + 1;
             switch (funct3) {
                 case 0: cout << "\tLB\tx" << rd << ", -" << I_imm << "(" << rs1 << ")\n";    //ex: lb 0x3, 5(0x6)
                     //regs[rd] = M[rs1 + imm][0:7]
@@ -246,26 +247,29 @@ void instDecExec(unsigned int instWord)
     }
     else if (opcode == 0x67){           // Jalr (1100111) 103
         cout << "\tJALR\tx" << rd << ", x" << rs1 << ", " << I_imm << "\n";
-    //regs[rd] = PC + 4; PC += imm;
+        //regs[rd] = PC + 4; PC += imm;
     }
     else if (opcode == 0x23) {          // S-Instructions (0100011) 35
         if(posNegBit_S == 0){
-           switch (funct3) {
-               case 0: cout << "\tSB\tx" << rs2 << ", " << S_imm << "(" << rs2 << ")" << "\n";
-                   //M[rs1 + imm][0:7] = rs2[0:7];
-                   break;
-                
-               case 1: cout << "\tSH\tx" << rs2 << ", " << S_imm << "(" << rs2 << ")" << "\n";
-                   //M[rs1 + imm][0:15] = rs2[0:15];
-                   break;
-                
-               case 2: cout << "\tSW\tx" << rs2 << ", " << S_imm << "(" << rs2 << ")" << "\n";
-                   //M[rs1 + imm][0:31] = rs2[0:31];
-                   break;
-           }
+            switch (funct3) {
+                case 0: cout << "\tSB\tx" << rs2 << ", " << S_imm << "(" << rs2 << ")" << "\n";
+                    //M[rs1 + imm][0:7] = rs2[0:7];
+                    break;
+                    
+                case 1: cout << "\tSH\tx" << rs2 << ", " << S_imm << "(" << rs2 << ")" << "\n";
+                    //M[rs1 + imm][0:15] = rs2[0:15];
+                    break;
+                    
+                case 2: cout << "\tSW\tx" << rs2 << ", " << S_imm << "(" << rs2 << ")" << "\n";
+                    //M[rs1 + imm][0:31] = rs2[0:31];
+                    break;
+                    
+                default: cout << "\tUnkown S Instruction \n";
+                    
+            }
         }
         else{
-            S_imm = (S_imm & 0) + 1;
+            I_imm = (I_imm xor 0xFFFFFFFF) + 1;
             switch (funct3) {
                 case 0: cout << "\tSB\tx" << rs2 << ", -" << S_imm << "(" << rs2 << ")" << "\n";
                     //M[rs1 + imm][0:7] = rs2[0:7];
@@ -278,12 +282,40 @@ void instDecExec(unsigned int instWord)
                 case 2: cout << "\tSW\tx" << rs2 << ", -" << S_imm << "(" << rs2 << ")" << "\n";
                     //M[rs1 + imm][0:31] = rs2[0:31];
                     break;
+                    
+                default: cout << "\tUnkown S Instruction \n";
+                    
             }
         }
     }
     else if (opcode == 0x63) {          // B-Instructions (1100011) 99
         switch (funct3) {
+            case 0: cout << "\tBEQ\tx" << rs1 << ", " << rs2 << ", " << B_imm << "\n";
+                //(rs1 == rs2)? PC += imm;
+                break;
                 
+            case 1: cout << "\tBNE\tx" << rs1 << ", " << rs2 << ", " << B_imm << "\n";
+                //(rs1 != rs2)? PC += imm;
+                break;
+                
+            case 4: cout << "\tBLT\tx" << rs1 << ", " << rs2 << ", " << B_imm << "\n";
+                //(rs1 < rs2)? PC += imm;
+                break;
+                
+            case 5: cout << "\tBGE\tx" << rs1 << ", " << rs2 << ", " << B_imm << "\n";
+                //(rs1 > rs2)? PC += imm;
+                break;
+                
+            case 6: cout << "\tBLTU\tx" << rs1 << ", " << rs2 << ", " << B_imm << "\n";
+                //(rs1 < rs2)? PC += imm;
+                break;
+                
+            case 7: cout << "\tBGEU\tx" << rs1 << ", " << rs2 << ", " << B_imm << "\n";
+                //(rs1 >= rs2)? PC += imm;
+                break;
+                
+                
+            default: cout << "\tUnkown B Instruction \n";
         }
     }
     
@@ -335,6 +367,5 @@ int main(int argc, char *argv[]){
         
         
     } else emitError("Cannot access input file\n");
-    //inFile.close();    ??????/
     return 0;
 }
